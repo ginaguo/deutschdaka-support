@@ -28,31 +28,7 @@
   .faq-item { margin-bottom: 18px; }
   .faq-item .q { font-weight: 600; margin-bottom: 4px; }
   .faq-item .a { color: #444; }
-  form { display: flex; flex-direction: column; gap: 12px; }
-  label { font-size: 14px; font-weight: 600; color: #333; }
-  input, textarea {
-    font-size: 15px;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    font-family: inherit;
-    width: 100%;
-  }
-  textarea { min-height: 120px; resize: vertical; }
-  button {
-    margin-top: 4px;
-    padding: 13px;
-    border: none;
-    border-radius: 10px;
-    background: #34A853;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  button:hover { opacity: 0.92; }
   .note { font-size: 13px; color: #888; margin-top: 8px; }
-  .success { display: none; background: #E9F9EE; border: 1px solid #34A853; color: #1E7A38; padding: 14px; border-radius: 10px; margin-top: 12px; }
   footer { margin-top: 48px; font-size: 12px; color: #999; text-align: center; }
 </style>
 </head>
@@ -87,49 +63,16 @@
 
   <h2>联系我们</h2>
   <div class="card">
-    <p style="margin-top:0;">没有找到答案？请通过下方表单告诉我们，我们会尽快查看你的反馈。</p>
-    <form id="support-form" action="https://formspree.io/f/FORMSPREE_ID" method="POST">
-      <label for="name">称呼（选填）</label>
-      <input type="text" id="name" name="name" placeholder="怎么称呼你" />
-
-      <label for="email">你的邮箱（用于回复你，选填）</label>
-      <input type="email" id="email" name="email" placeholder="your@email.com" />
-
-      <label for="message">问题描述</label>
-      <textarea id="message" name="message" placeholder="请描述你遇到的问题或建议" required></textarea>
-
-      <button type="submit">发送反馈</button>
-      <p class="note">提交的信息仅用于处理你的问题，不会用于其他用途。</p>
-    </form>
-    <div class="success" id="success-msg">感谢反馈，我们已收到你的消息！</div>
+    <p style="margin-top:0;">没有找到答案？欢迎直接在 App Store 的「评分与评论」区留言告诉我们你遇到的问题或建议，我们会持续关注并优化。</p>
+    <a href="https://apps.apple.com/app/id0000000000?action=write-review" id="review-link"
+       style="display:inline-block; margin-top:8px; padding:13px 20px; border-radius:10px; background:#34A853; color:#fff; font-weight:600; text-decoration:none;">
+      前往 App Store 留言反馈
+    </a>
+    <p class="note">如果按钮暂时无法跳转，可直接在 App Store 搜索「德语打卡」，在应用页面下滑找到「评分与评论」进行反馈。</p>
   </div>
 
   <footer>德语打卡 (GermanStreak) · 支持页</footer>
 </div>
 
-<script>
-  const form = document.getElementById('support-form');
-  const successMsg = document.getElementById('success-msg');
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const data = new FormData(form);
-    try {
-      const res = await fetch(form.action, {
-        method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
-      });
-      if (res.ok) {
-        form.reset();
-        form.style.display = 'none';
-        successMsg.style.display = 'block';
-      } else {
-        alert('发送失败，请稍后重试，或直接重新提交一次。');
-      }
-    } catch (err) {
-      alert('网络错误，请检查网络后重试。');
-    }
-  });
-</script>
 </body>
 </html>
