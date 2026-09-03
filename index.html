@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>德语打卡 - 支持与反馈</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+    background: #FAFAFA;
+    color: #222;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 32px 20px 64px; }
+  h1 { font-size: 26px; margin: 24px 0 8px; }
+  p.sub { color: #666; margin-top: 0; }
+  h2 { font-size: 18px; margin-top: 40px; }
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    margin-top: 12px;
+  }
+  .faq-item { margin-bottom: 18px; }
+  .faq-item .q { font-weight: 600; margin-bottom: 4px; }
+  .faq-item .a { color: #444; }
+  form { display: flex; flex-direction: column; gap: 12px; }
+  label { font-size: 14px; font-weight: 600; color: #333; }
+  input, textarea {
+    font-size: 15px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-family: inherit;
+    width: 100%;
+  }
+  textarea { min-height: 120px; resize: vertical; }
+  button {
+    margin-top: 4px;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    background: #34A853;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button:hover { opacity: 0.92; }
+  .note { font-size: 13px; color: #888; margin-top: 8px; }
+  .success { display: none; background: #E9F9EE; border: 1px solid #34A853; color: #1E7A38; padding: 14px; border-radius: 10px; margin-top: 12px; }
+  footer { margin-top: 48px; font-size: 12px; color: #999; text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>德语打卡 · 支持中心</h1>
+  <p class="sub">德语学习 App「德语打卡」的使用帮助与反馈渠道</p>
+
+  <h2>常见问题</h2>
+  <div class="card">
+    <div class="faq-item">
+      <div class="q">App 每天什么时候推送新内容？</div>
+      <div class="a">你可以在「设置」中开启每日提醒，并选择希望收到提醒的时间段，App 会在这之后按学习计划分批推送句子提醒。</div>
+    </div>
+    <div class="faq-item">
+      <div class="q">可以自定义学习话题吗？</div>
+      <div class="a">可以。在「设置」的「话题（可多选）」中勾选或添加你感兴趣的话题，之后点击「立刻重新生成」即可让新内容围绕这些话题生成。</div>
+    </div>
+    <div class="faq-item">
+      <div class="q">「立刻重新生成」用完次数怎么办？</div>
+      <div class="a">该功能每天限用 3 次，用于避免频繁请求。次数会在第二天自动重置，无需手动操作。</div>
+    </div>
+    <div class="faq-item">
+      <div class="q">生成内容一直转圈/卡住怎么办？</div>
+      <div class="a">请检查网络连接。若长时间没有进展，可以直接点击「设置」里的生成按钮取消当前请求，再重新尝试一次。</div>
+    </div>
+    <div class="faq-item">
+      <div class="q">收藏的内容在哪里查看？</div>
+      <div class="a">在句子/词汇卡片上左滑即可收藏，收藏内容可在「历史」页中查看和管理。</div>
+    </div>
+  </div>
+
+  <h2>联系我们</h2>
+  <div class="card">
+    <p style="margin-top:0;">没有找到答案？请通过下方表单告诉我们，我们会尽快查看你的反馈。</p>
+    <form id="support-form" action="https://formspree.io/f/FORMSPREE_ID" method="POST">
+      <label for="name">称呼（选填）</label>
+      <input type="text" id="name" name="name" placeholder="怎么称呼你" />
+
+      <label for="email">你的邮箱（用于回复你，选填）</label>
+      <input type="email" id="email" name="email" placeholder="your@email.com" />
+
+      <label for="message">问题描述</label>
+      <textarea id="message" name="message" placeholder="请描述你遇到的问题或建议" required></textarea>
+
+      <button type="submit">发送反馈</button>
+      <p class="note">提交的信息仅用于处理你的问题，不会用于其他用途。</p>
+    </form>
+    <div class="success" id="success-msg">感谢反馈，我们已收到你的消息！</div>
+  </div>
+
+  <footer>德语打卡 (GermanStreak) · 支持页</footer>
+</div>
+
+<script>
+  const form = document.getElementById('support-form');
+  const successMsg = document.getElementById('success-msg');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        form.reset();
+        form.style.display = 'none';
+        successMsg.style.display = 'block';
+      } else {
+        alert('发送失败，请稍后重试，或直接重新提交一次。');
+      }
+    } catch (err) {
+      alert('网络错误，请检查网络后重试。');
+    }
+  });
+</script>
+</body>
+</html>
